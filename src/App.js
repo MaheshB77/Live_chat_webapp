@@ -1,10 +1,20 @@
 import React from "react";
 import "./App.css";
+import { motion } from "framer-motion";
 
 function App() {
     return (
         <div className="App">
-            <h1>Liviano live chat coming soon......</h1>
+            <motion.h1
+                animate={{
+                    color: "black",
+                    scale: 0.9,
+                    transition: {
+                        yoyo: 6
+                    }
+                }}>
+                Liviano live chat coming soon......
+            </motion.h1>
         </div>
     );
 }
