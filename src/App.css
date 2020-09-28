@@ -1,6 +1,27 @@
 .App {
     text-align: center;
-    margin-top: 20%;
+    margin-top: 5%;
     font-size: 20px;
-    color: tomato;
+    color: purple;
+}
+.MaintenanceText {
+    color: red;
+    background-color: cadetblue;
+}
+button.SigninButton {
+    padding: 10px;
+    cursor: pointer;
+}
+.SigninButton:hover {
+    background-color: green;
+    border: 2px solid black;
+    color: white;
+}
+button.SignoutButton {
+    padding: 10px;
+    cursor: pointer;
+}
+.SignoutButton:hover {
+    background-color: red;
+    border: 2px solid black;
 }

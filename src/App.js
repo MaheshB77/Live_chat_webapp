@@ -4,10 +4,12 @@ import { motion } from "framer-motion";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
-import "firebase/analytics";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 
+/**
+ * Initializing the firebase app
+ */
 firebase.initializeApp({
     apiKey: "AIzaSyDmhtZbpO3_4qxp4Z6opVZMt1clPjQYs6w",
     authDomain: "liviano-live-chat.firebaseapp.com",
@@ -21,23 +23,22 @@ firebase.initializeApp({
 
 const auth = firebase.auth();
 const firestore = firebase.firestore();
-const analytics = firebase.analytics();
 function App() {
     const [user] = useAuthState(auth);
     let isLoggedIn = user ? <Welcome /> : <PleaseLogin />;
     return (
         <div className="App">
-            {/* <motion.h1
+            <motion.h1
+                className="MaintenanceText"
                 animate={{
-                    color: "black",
                     scale: 0.9,
                     transition: {
                         yoyo: 6
                     }
                 }}>
-                Liviano live chat coming soon......
-            </motion.h1> */}
-            <div>{isLoggedIn}</div>
+                Under Maintenance
+            </motion.h1>
+            <div className="MainApp">{isLoggedIn}</div>
         </div>
     );
 }
@@ -58,12 +59,18 @@ function PleaseLogin() {
     };
     return (
         <div className="PleaseLogin">
-            <button onClick={googleAuth}>Click to sign with google</button>
+            <button className="SigninButton" onClick={googleAuth}>
+                Click to sign with google
+            </button>
         </div>
     );
 }
 function SignOut() {
-    return <button onClick={() => auth.signOut()}>Sign Out</button>;
+    return (
+        <button className="SignoutButton" onClick={() => auth.signOut()}>
+            Sign Out
+        </button>
+    );
 }
 
 export default App;
