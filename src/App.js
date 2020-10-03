@@ -55,7 +55,6 @@ const Chat = () => {
     const [latestMessages] = useCollectionData(query, { idField: "id" });
 
     const [currentMessage, setCurrentMessage] = useState("");
-    const utilityObject = useRef();
 
     /**
      * Sending a message
@@ -72,11 +71,9 @@ const Chat = () => {
         });
 
         setCurrentMessage("");
-        utilityObject.current.scrollIntoView({ behavior: "smooth" });
     };
     let allMessages = latestMessages
         ? latestMessages.map((message) => {
-              console.log(message);
               return <Message key={message.id} message={message} />;
           })
         : null;
@@ -85,24 +82,23 @@ const Chat = () => {
         setCurrentMessage(event.target.value);
     };
     return (
-        <div className="Chat">
-            <div className="Chat-messages">
-                {allMessages}
-                <span ref={utilityObject}></span>
-            </div>
+        <>
+            <div className="Chat">
+                <div className="Chat-messages">{allMessages}</div>
 
-            <form onSubmit={sendMessage} className="Message-form">
-                <input
-                    type="text"
-                    placeholder="Start typing"
-                    value={currentMessage}
-                    onChange={handleChange}
-                />
-                <button type="submit" disabled={!currentMessage}>
-                    Send
-                </button>
-            </form>
-        </div>
+                <form onSubmit={sendMessage} className="Message-form">
+                    <input
+                        type="text"
+                        placeholder="Start typing"
+                        value={currentMessage}
+                        onChange={handleChange}
+                    />
+                    <button type="submit" disabled={!currentMessage}>
+                        Send
+                    </button>
+                </form>
+            </div>
+        </>
     );
 };
 
