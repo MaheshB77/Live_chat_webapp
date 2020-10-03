@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import "./App.css";
 import { motion } from "framer-motion";
 import firebase from "firebase/app";
@@ -7,9 +7,7 @@ import "firebase/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-/**
- * Initializing the firebase app
- */
+// Initializing the app using Firebase
 firebase.initializeApp({
     apiKey: "AIzaSyDmhtZbpO3_4qxp4Z6opVZMt1clPjQYs6w",
     authDomain: "liviano-live-chat.firebaseapp.com",
@@ -25,32 +23,103 @@ const auth = firebase.auth();
 const firestore = firebase.firestore();
 function App() {
     const [user] = useAuthState(auth);
-    let isLoggedIn = user ? <Welcome /> : <PleaseLogin />;
+    let loadUser = user ? <Chat /> : <PleaseLogin />;
+    let signOut = user ? <SignOut /> : null;
     return (
         <div className="App">
-            <motion.h1
-                className="MaintenanceText"
-                animate={{
-                    scale: 0.9,
-                    transition: {
-                        yoyo: 6
-                    }
-                }}>
-                Under Maintenance
-            </motion.h1>
-            <div className="MainApp">{isLoggedIn}</div>
+            <div className="AppHeading">This app is under development</div>
+            <div className="MainApp">{loadUser}</div>
+            <div className="Signout">{signOut}</div>
         </div>
     );
 }
 
-const Welcome = () => {
+// Temporary Welcome message
+// const Welcome = () => {
+//     return (
+//         <div>
+//             <h1>Welcome{" " + auth.currentUser.displayName + " !"}</h1>
+//             <SignOut />
+//         </div>
+//     );
+// };
+
+// Actual Chat Room
+const Chat = () => {
+    /**
+     * Creating a query and retrieving the realtime data using
+     * useCollectionData() hook
+     */
+    const messages = firestore.collection("messages");
+    const query = messages.orderBy("messageCreationTime");
+    const [latestMessages] = useCollectionData(query, { idField: "id" });
+
+    const [currentMessage, setCurrentMessage] = useState("");
+    const utilityObject = useRef();
+
+    /**
+     * Sending a message
+     */
+    const sendMessage = async (event) => {
+        event.preventDefault();
+        const { uid, photoURL } = auth.currentUser;
+
+        await messages.add({
+            messageText: currentMessage,
+            messageCreationTime: firebase.firestore.FieldValue.serverTimestamp(),
+            uid: uid,
+            photoURL: photoURL
+        });
+
+        setCurrentMessage("");
+        utilityObject.current.scrollIntoView({ behavior: "smooth" });
+    };
+    let allMessages = latestMessages
+        ? latestMessages.map((message) => {
+              console.log(message);
+              return <Message key={message.id} message={message} />;
+          })
+        : null;
+
+    const handleChange = (event) => {
+        setCurrentMessage(event.target.value);
+    };
     return (
-        <div>
-            <h1>Welcome!!!</h1>
-            <SignOut />
+        <div className="Chat">
+            <div className="Chat-messages">
+                {allMessages}
+                <span ref={utilityObject}></span>
+            </div>
+
+            <form onSubmit={sendMessage} className="Message-form">
+                <input
+                    type="text"
+                    placeholder="Start typing"
+                    value={currentMessage}
+                    onChange={handleChange}
+                />
+                <button type="submit" disabled={!currentMessage}>
+                    Send
+                </button>
+            </form>
         </div>
     );
 };
+
+// Message component
+const Message = (props) => {
+    const { messageText, uid, photoURL } = props.message;
+    const userTypeClass = uid === auth.currentUser.uid ? "sent" : "received";
+
+    return (
+        <div className={`${userTypeClass} Message`}>
+            <img src={photoURL} alt="userPic" />
+            <p>{messageText}</p>
+        </div>
+    );
+};
+
+// Login
 function PleaseLogin() {
     const googleAuth = (event) => {
         event.preventDefault();
@@ -65,6 +134,8 @@ function PleaseLogin() {
         </div>
     );
 }
+
+// Logout
 function SignOut() {
     return (
         <button className="SignoutButton" onClick={() => auth.signOut()}>

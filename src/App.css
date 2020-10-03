@@ -1,27 +1,119 @@
-.App {
+.MainApp {
+    background-color: darkslateblue;
+    width: 60%;
+    display: flex;
+    overflow-y: scroll;
+    max-height: 70vh;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
+}
+.AppHeading {
     text-align: center;
-    margin-top: 5%;
+    height: 5vh;
+    padding: 5px;
+    font-size: 25px;
+}
+.PleaseLogin {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 20vh;
+}
+.Signout {
+    /* background-color: aqua; */
+    display: flex;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+}
+.SignoutButton {
+    background-color: rgb(160, 37, 37);
+    border-radius: 10px;
+    width: 100px;
+}
+.SigninButton {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: steelblue;
+    display: flex;
+    padding: 10px;
+    height: 10vh;
+    margin-top: 25px;
+    color: black;
     font-size: 20px;
-    color: purple;
+    border-radius: 10px;
 }
-.MaintenanceText {
-    color: red;
-    background-color: cadetblue;
+.Message {
+    display: flex;
+    align-items: center;
+    font-family: "Gill Sans", "Gill Sans MT", "Trebuchet MS", sans-serif;
+    /* background-color: crimson; */
+    margin: 10px;
 }
-button.SigninButton {
-    padding: 10px;
+.Message img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+form {
+    width: 100%;
+    height: auto;
+    display: flex;
+}
+input {
+    width: 80%;
+    height: 5vh;
+    border: none;
+}
+button {
+    width: 20%;
+    height: 5.4vh;
     cursor: pointer;
-}
-.SigninButton:hover {
-    background-color: green;
-    border: 2px solid black;
+    background-color: black;
     color: white;
+    border: none;
 }
-button.SignoutButton {
-    padding: 10px;
-    cursor: pointer;
+button:disabled {
+    opacity: 0.5;
 }
-.SignoutButton:hover {
-    background-color: red;
-    border: 2px solid black;
+p {
+    background-color: chocolate;
+    border-radius: 15px;
+    margin-left: 3px;
+    margin-right: 3px;
+    padding: 8px;
+    line-height: 20px;
+}
+.sent p {
+    color: white;
+    background-color: rgb(20, 73, 20);
+}
+
+.sent {
+    display: flex;
+    flex-direction: row-reverse;
+}
+.received p {
+    background: #e5e5ea;
+    color: black;
+}
+.Chat {
+    width: 100%;
+}
+
+/* Scrollbar */
+.MainApp::-webkit-scrollbar {
+    width: 15px;
+}
+
+.MainApp::-webkit-scrollbar-track {
+    background: black;
+}
+
+.MainApp::-webkit-scrollbar-thumb {
+    background: red;
 }
