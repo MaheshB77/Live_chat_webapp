@@ -34,16 +34,6 @@ function App() {
     );
 }
 
-// Temporary Welcome message
-// const Welcome = () => {
-//     return (
-//         <div>
-//             <h1>Welcome{" " + auth.currentUser.displayName + " !"}</h1>
-//             <SignOut />
-//         </div>
-//     );
-// };
-
 // Actual Chat Room
 const Chat = () => {
     /**
