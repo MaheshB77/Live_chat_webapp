@@ -1,4 +1,4 @@
-#Live chat application
+# Live chat application
 
 _This is a live chatting web application where users can login using Google account and start chatting directly_
 
